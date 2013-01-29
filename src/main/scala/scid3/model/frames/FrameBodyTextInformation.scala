@@ -5,16 +5,16 @@ import scid3.model.types.TextEncoding
 
 
 object FrameBodyTextInformation {
-	def apply(tok: ByteArrayTokenizer): Tuple2[Seq[String], TextEncoding] = {
+	def apply(tok: ByteArrayTokenizer): Tuple2[Seq[String], Option[TextEncoding]] = {
 		val id = tok.next()
-		val textEncoding = TextEncoding(id) orNull
-		val text = tok.textStrings(textEncoding)
+		val textEncoding = TextEncoding(id) 
+		val text = textEncoding.toList.flatMap { tok.textStrings }
 	 	Tuple2(text, textEncoding)
 	}
 }
 
 trait FrameBodyTextInformation extends FrameBody {
-	val textEncoding: TextEncoding
+	val textEncoding: Option[TextEncoding]
 	val text	: Seq[String]
 }
 
@@ -27,7 +27,7 @@ object TCONFrameBody {
 
 case class TCONFrameBody(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TCON
 }
 
@@ -40,7 +40,7 @@ object TBPMFrameBody {
 
 case class TBPMFrameBody(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TBPM
 }
 
@@ -53,7 +53,7 @@ object TCOMFrameBody {
 
 case class TCOMFrameBody(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TCOM
 }
 
@@ -66,7 +66,7 @@ object TCOPFrameBody {
 
 case class TCOPFrameBody(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TCOP
 }
 
@@ -79,7 +79,7 @@ object TDATFrameBody {
 
 case class TDATFrameBody(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TDAT
 }
 
@@ -91,8 +91,8 @@ object TDLYFrameBody {
 }
 
 case class TDLYFrameBody(
-	text: Seq[String], textEncoding:
-	TextEncoding) extends FrameBodyTextInformation {
+	text: Seq[String], 
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TDLY
 }
 
@@ -105,7 +105,7 @@ object TENCFrameBody {
 
 case class TENCFrameBody(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TENC
 }
 
@@ -118,7 +118,7 @@ object TEXTFrameBody {
 
 case class TEXTFrameBody(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TEXT
 }
 
@@ -131,7 +131,7 @@ object TFLTFrameBody {
 
 case class TFLTFrameBody(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TFLT
 }
 
@@ -144,7 +144,7 @@ object TIMEFrameBody {
 
 case class TIMEFrameBody(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TIME
 }
 
@@ -157,7 +157,7 @@ object FrameBodyTIPL {
 
 case class FrameBodyTIPL(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TIPL
 }
 
@@ -170,7 +170,7 @@ object FrameBodyTIT1 {
 
 case class FrameBodyTIT1(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TIT1
 }
 
@@ -183,7 +183,7 @@ object FrameBodyTIT2 {
 
 case class FrameBodyTIT2(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TIT2
 }
 
@@ -197,7 +197,7 @@ object FrameBodyTIT3 {
 
 case class FrameBodyTIT3(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TIT3
 }
 
@@ -210,7 +210,7 @@ object FrameBodyTKEY {
 
 case class FrameBodyTKEY(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TKEY
 }
 
@@ -223,7 +223,7 @@ object FrameBodyTLEN {
 
 case class FrameBodyTLEN(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TLEN
 }
 
@@ -236,7 +236,7 @@ object FrameBodyTMCL {
 
 case class FrameBodyTMCL(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TMCL
 }
 
@@ -249,7 +249,7 @@ object FrameBodyTMED {
 
 case class FrameBodyTMED(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TMED
 }
 
@@ -262,7 +262,7 @@ object FrameBodyTMOO {
 
 case class FrameBodyTMOO(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TMOO
 }
 
@@ -273,7 +273,7 @@ object FrameBodyTOAL {
 	}
 }
 
-case class FrameBodyTOAL(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTOAL(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TOAL
 }
 
@@ -284,7 +284,7 @@ object FrameBodyTOFN {
 	}
 }
 
-case class FrameBodyTOFN(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTOFN(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TOFN
 }
 
@@ -295,7 +295,7 @@ object FrameBodyTOLY {
 	}
 }
 
-case class FrameBodyTOLY(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTOLY(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TOLY
 }
 
@@ -306,7 +306,7 @@ object FrameBodyTOPE {
 	}
 }
 
-case class FrameBodyTOPE(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTOPE(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TOPE
 }
 
@@ -317,7 +317,7 @@ object FrameBodyTORY {
 	}
 }
 
-case class FrameBodyTORY(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTORY(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TORY
 }
 
@@ -328,7 +328,7 @@ object FrameBodyTOWN {
 	}
 }
 
-case class FrameBodyTOWN(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTOWN(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TOWN
 }
 
@@ -339,7 +339,7 @@ object FrameBodyTPE1 {
 	}
 }
 
-case class FrameBodyTPE1(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTPE1(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TPE1
 }
 
@@ -350,7 +350,7 @@ object FrameBodyTPE2 {
 	}
 }
 
-case class FrameBodyTPE2(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTPE2(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TPE2
 }
 
@@ -361,7 +361,7 @@ object FrameBodyTPE3 {
 	}
 }
 
-case class FrameBodyTPE3(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTPE3(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TPE3
 }
 
@@ -372,7 +372,7 @@ object FrameBodyTPE4 {
 	}
 }
 
-case class FrameBodyTPE4(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTPE4(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TPE4
 }
 
@@ -383,7 +383,7 @@ object FrameBodyTPOS {
 	}
 }
 
-case class FrameBodyTPOS(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTPOS(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TPOS
 }
 
@@ -394,7 +394,7 @@ object FrameBodyTPRO {
 	}
 }
 
-case class FrameBodyTPRO(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTPRO(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TPRO
 }
 
@@ -405,7 +405,7 @@ object FrameBodyTPUB {
 	}
 }
 
-case class FrameBodyTPUB(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTPUB(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TPUB
 }
 
@@ -416,7 +416,7 @@ object FrameBodyTRCK {
 	}
 }
 
-case class FrameBodyTRCK(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTRCK(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TRCK
 }
 
@@ -427,7 +427,7 @@ object FrameBodyTRDA {
 	}
 }
 
-case class FrameBodyTRDA(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTRDA(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TRDA
 }
 
@@ -439,7 +439,7 @@ object FrameBodyTRSN {
 	}
 }
 
-case class FrameBodyTRSN(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTRSN(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TRSN
 }
 
@@ -450,7 +450,7 @@ object FrameBodyTRSO {
 	}
 }
 
-case class FrameBodyTRSO(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTRSO(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TRSO
 }
 
@@ -461,7 +461,7 @@ object FrameBodyTSIZ {
 	}
 }
 
-case class FrameBodyTSIZ(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTSIZ(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TSIZ
 }
 
@@ -472,7 +472,7 @@ object FrameBodyTSOA {
 	}
 }
 
-case class FrameBodyTSOA(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTSOA(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TSOA
 }
 
@@ -483,7 +483,7 @@ object FrameBodyTSOP {
 	}
 }
 
-case class FrameBodyTSOP(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTSOP(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TSOP
 }
 
@@ -494,7 +494,7 @@ object FrameBodyTSOT {
 	}
 }
 
-case class FrameBodyTSOT(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTSOT(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TSOT
 }
 
@@ -505,7 +505,7 @@ object FrameBodyTSRC {
 	}
 }
 
-case class FrameBodyTSRC(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTSRC(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TSRC
 }
 
@@ -516,7 +516,7 @@ object FrameBodyTSSE {
 	}
 }
 
-case class FrameBodyTSSE(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTSSE(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TSSE
 }
 
@@ -527,7 +527,7 @@ object FrameBodyTSST {
 	}
 }
 
-case class FrameBodyTSST(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTSST(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TSST
 }
 
@@ -538,6 +538,6 @@ object FrameBodyTYER {
 	}
 }
 
-case class FrameBodyTYER(text: Seq[String], textEncoding: TextEncoding) extends FrameBodyTextInformation {
+case class FrameBodyTYER(text: Seq[String], textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TYER
 }

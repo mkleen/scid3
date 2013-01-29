@@ -12,6 +12,6 @@ object TALBFrameBody {
 
 case class TALBFrameBody(
 	text: Seq[String],
-	textEncoding: TextEncoding) extends FrameBodyTextInformation {
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
 	val frameBodyType = FrameBodyType.TALB
 }
