@@ -15,32 +15,32 @@ import scid3.util.ByteUtil._
 object Id3v2_3Reader extends Id3v2Reader {
 
 	val ID_BYTE_SIZE 	=	4
-	val VERSION 		=	ID3v2_3
+	val VERSION =	ID3v2_3
 
 	override protected def readFrame(in: InputStream): Option[Id3Frame] = {
 		for{id			<- readIdentifier(in)
 			bodySize	<- readBodySize(in)}
 		yield {
-			val flagBytes: Array[Byte] 	= readBytes(in, 2)
-			val bodyData: Array[Byte] 	= readBytes(in, bodySize)
-			val body 					= FrameBody(id, new ByteArrayTokenizer(bodyData))
+			val flagBytes: Array[Byte] = readBytes(in, 2)
+			val bodyData: Array[Byte]  = readBytes(in, bodySize)
+			val body = FrameBody(id, new ByteArrayTokenizer(bodyData))
 			Id3Frame(version = VERSION, body = body)
 		}
 	}
 
 	override protected def readHeader(in: InputStream): Id3Header = {
-		val flagsByte: Byte 		= readByte(in)
-		val unsynchronization 		= bit(flagsByte, 7)
-		val extended 				= bit(flagsByte, 6)
-		val experimental 			= bit(flagsByte, 5)
-		val size 					= readSyncSafeInt(in)
+		val flagsByte: Byte = readByte(in)
+		val unsynchronization = bit(flagsByte, 7)
+		val extended = bit(flagsByte, 6)
+		val experimental = bit(flagsByte, 5)
+		val size = readSyncSafeInt(in)
 		Id3Header(unsynchronization = unsynchronization, experimental = experimental, extended = extended, size = size)
 	}
 
 	override protected def readExtendedData(in: InputStream): Option[Id3ExtendedData]  = {
-		val extendedHeaderSize: Int 	= readSyncSafeInt(in)
+		val extendedHeaderSize: Int = readSyncSafeInt(in)
 		if (extendedHeaderSize != 6 && extendedHeaderSize != 10) return None
-		val flagBytes 					= readBytes(in, 2)
+		val flagBytes = readBytes(in, 2)
 		Some(Id3ExtendedData())
 	}
 

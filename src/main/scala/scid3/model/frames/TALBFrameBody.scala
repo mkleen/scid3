@@ -3,6 +3,12 @@ package scid3.model.frames
 import scid3.util.ByteArrayTokenizer
 import scid3.model.types.TextEncoding
 
+case class TALBFrameBody(
+	text: Seq[String],
+	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
+	val frameBodyType = FrameBodyType.TALB
+}
+
 object TALBFrameBody {
 	def apply(tok: ByteArrayTokenizer): TALBFrameBody = {
 		val tuple = FrameBodyTextInformation.apply(tok)
@@ -10,8 +16,3 @@ object TALBFrameBody {
 	}
 }
 
-case class TALBFrameBody(
-	text: Seq[String],
-	textEncoding: Option[TextEncoding]) extends FrameBodyTextInformation {
-	val frameBodyType = FrameBodyType.TALB
-}

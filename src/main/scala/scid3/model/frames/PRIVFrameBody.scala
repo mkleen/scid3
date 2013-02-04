@@ -10,6 +10,6 @@ object PRIVFrameBody {
 	def apply(tok: ByteArrayTokenizer): PRIVFrameBody = {
 		val owner = tok.owner()
 		val privateData = tok.rest()
-		return new PRIVFrameBody(owner, privateData)
+		new PRIVFrameBody(owner, privateData)
 	}
 }

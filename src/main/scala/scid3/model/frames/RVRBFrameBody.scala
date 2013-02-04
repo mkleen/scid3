@@ -13,7 +13,8 @@ case class RVRBFrameBody(
 	reverbFeedbackRightToRight: Long,
 	reverbFeedbackRightToLeft: Long,
 	premixLeftToRight: Long,
-	premixRightToLeft: Long) extends FrameBody {
+	premixRightToLeft: Long
+) extends FrameBody {
 	val frameBodyType = FrameBodyType.RVRB
 }
 

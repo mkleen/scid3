@@ -12,16 +12,16 @@ import scid3.util._
    Returns None if the data is invalid. */
 
 object Id3Reader {
-	def read(ist:InputStream, ost:OutputStream = NullOutputStream): Option[Id3Result] = {
-		val in	= new TeeInputStream(ist, ost)
-		for{version <- StreamUtil.readVersion(in)}
+  def read(ist:InputStream, ost:OutputStream = NullOutputStream): Option[Id3Result] = {
+    val in	= new TeeInputStream(ist, ost)
+    for{version <- StreamUtil.readVersion(in)}
 			yield {
 				version match {
 					case ID3v2_2 =>  Id3v2_2Reader read in
 					case ID3v2_3 =>  Id3v2_3Reader read in
 					case ID3v2_4 =>  Id3v2_4Reader read in
 				}
-			}
+		}
 	}
 
 	def readFrameBodies(ist:InputStream, ost:OutputStream = NullOutputStream): Option[Map[FrameBodyType.Value, Seq[FrameBody]]] = {

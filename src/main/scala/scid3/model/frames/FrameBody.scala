@@ -101,7 +101,6 @@ object FrameBody {
 			case WPUB => return FrameBodyWPUB.apply(tok)
 			case WXXX => return WXXXFrameBody.apply(tok)
 			case AENC => return AENCFrameBody.apply(tok)
-			//    case "RVAD" => return FrameBodyRVAD.apply(tok)			
 			case _ => return FrameBodyUnsupported(id.toString)
 		}
 	}

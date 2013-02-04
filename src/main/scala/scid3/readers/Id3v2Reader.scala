@@ -19,17 +19,18 @@ trait Id3v2Reader {
 	val VERSION: Version
 
 	final def read(in: InputStream): Id3Result = {
-		val header 			= readHeader(in)
-		val body 			= readBody(in)
+		val header = readHeader(in)
+		val body = readBody(in)
 		val extendedData	= if (header.extended) readExtendedData(in) else None
 		Id3Result(VERSION, header, body, extendedData)
 	}
 
 	private final def readBody(in: InputStream): Seq[Id3Frame] = {
-		@tailrec def rec(previous:List[Id3Frame]): List[Id3Frame] = readFrame(in:InputStream) match {
-				    case Some(frame)	=>	rec(frame :: previous)
-					case None			=>	previous
-				}
+		@tailrec 
+		def rec(previous:List[Id3Frame]): List[Id3Frame] = readFrame(in:InputStream) match {
+		  case Some(frame) => rec(frame :: previous)
+			case None	=> previous
+		}
 		rec(Nil).reverse
 	}
 
@@ -38,8 +39,8 @@ trait Id3v2Reader {
 	}
 
 	protected def readIdentifier(in: InputStream): Option[FrameBodyType.Value] = {
-		val buffer 	= readBytes(in, ID_BYTE_SIZE)
-		val id 		= new String(buffer, ENCODING)
+		val buffer = readBytes(in, ID_BYTE_SIZE)
+		val id = new String(buffer, ENCODING)
 		buildFrameIdentifier(id)
 	}
 

@@ -16,7 +16,6 @@ object FrameBodyType extends Enumeration {
 	val PCNT = Value
 	val POPM = Value
 	val PRIV = Value
-	//val RVAD = Value
 	val RBUF = Value
 	val SYLT = Value
 	val TALB = Value

@@ -23,26 +23,26 @@ object Id3v2_2Reader extends Id3v2Reader {
 		for{id			<- readIdentifier(in)
 			bodySize	<- readBodySize(in)}
 		yield {
-			val bodyData: Array[Byte] 	=	readBytes(in, bodySize)
-			val body					=	FrameBody(id, new ByteArrayTokenizer(bodyData))
+			val bodyData: Array[Byte] =	readBytes(in, bodySize)
+			val body =	FrameBody(id, new ByteArrayTokenizer(bodyData))
 			Id3Frame(version = VERSION, body = body)
 		}
 	}
 
 	override protected def readHeader(in: InputStream): Id3Header = {
-		val flagsByte: Byte 		=	readByte(in)
-		val unsynchronization 		=	bit(flagsByte, 7)
-		val compression 			=	bit(flagsByte, 6)
-		val size 					=	readSyncSafeInt(in: InputStream)
+		val flagsByte: Byte =	readByte(in)
+		val unsynchronization =	bit(flagsByte, 7)
+		val compression =	bit(flagsByte, 6)
+		val size = readSyncSafeInt(in: InputStream)
 		Id3Header(compression = compression, unsynchronization = unsynchronization, size = size)
 	}
 	
 	override protected def readIdentifier(in: InputStream): Option[FrameBodyType.Value] = {
-		val buffer 	= readBytes(in, ID_BYTE_SIZE)
-		val id 		= new String(buffer, ENCODING)
+		val buffer = readBytes(in, ID_BYTE_SIZE)
+		val id = new String(buffer, ENCODING)
 		convertFramID322(id) match {
 			case Some(id)	=> buildFrameIdentifier(id)
-			case None		=> None 
+			case None	=> None 
 		}
 	}
 

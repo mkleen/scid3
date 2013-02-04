@@ -1,6 +1,6 @@
 package scid3.model.frames
 
-import scid3.model.types.{TextEncoding}
+import scid3.model.types.TextEncoding
 import scid3.util.ByteArrayTokenizer
 
 case class PICFrameBody (
@@ -8,7 +8,8 @@ case class PICFrameBody (
 	description: Option[String],
 	pictureType: Long,
 	pictureData: Array[Byte],
-	textEncoding: Option[TextEncoding]) extends FrameBody {
+	textEncoding: Option[TextEncoding]
+) extends FrameBody {
 	val frameBodyType = FrameBodyType.PIC
 }
 
